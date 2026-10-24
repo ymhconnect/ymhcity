@@ -67,6 +67,8 @@ function weaPatchMat(m){if(!m||WEA.patched.has(m))return;WEA.patched.add(m);if(!
 function weaPatchScene(sc){sc.traverse(o=>{if(!o.isMesh||o.userData.noWeather)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(weaPatchMat);});}
 const weaOutdoor=()=>!!W&&(W.main||W.id==='mountain'||W.id==='beach');
 
+function leafGeo(k){const sh=new THREE.Shape();sh.moveTo(0,-1);sh.quadraticCurveTo(0.95,-0.55,0.62,0.25);sh.quadraticCurveTo(0.42,0.75,0,1.25);sh.quadraticCurveTo(-0.42,0.75,-0.62,0.25);sh.quadraticCurveTo(-0.95,-0.55,0,-1);
+  const g=new THREE.ShapeGeometry(sh,6);const st=new THREE.PlaneGeometry(0.12,0.55);st.translate(0,-1.2,0);const merged=THREE.BufferGeometryUtils?THREE.BufferGeometryUtils.mergeBufferGeometries([g.toNonIndexed(),st.toNonIndexed()]):g;merged.rotateZ(Math.PI/2);merged.scale(k,k,k);return merged;}
 function weaBuild(){const o={};const H=26;o.H=H;
   /* rain streaks */
   const NR=1400;o.NR=NR;o.r=new Float32Array(NR*3);for(let i=0;i<NR;i++){o.r[i*3]=(Math.random()*2-1)*H;o.r[i*3+1]=Math.random()*24;o.r[i*3+2]=(Math.random()*2-1)*H;}
@@ -79,7 +81,7 @@ function weaBuild(){const o={};const H=26;o.H=H;
   o.snow=new THREE.Points(sg,new THREE.PointsMaterial({size:0.22,map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false,color:'#ffffff'}));o.snow.frustumCulled=false;
   /* falling leaves */
   const NL=240;o.NL=NL;o.l=[];const LC=['#d9622b','#e8932f','#c43d2a','#f2b632','#a8552a'];
-  const lg=new THREE.PlaneGeometry(0.34,0.22);o.leaves=new THREE.InstancedMesh(lg,new THREE.MeshLambertMaterial({side:THREE.DoubleSide}),NL);o.leaves.frustumCulled=false;o.leaves.userData.noWeather=true;
+  const lg=leafGeo(0.2);o.leaves=new THREE.InstancedMesh(lg,new THREE.MeshLambertMaterial({side:THREE.DoubleSide}),NL);o.leaves.frustumCulled=false;o.leaves.userData.noWeather=true;
   const col=new THREE.Color();for(let i=0;i<NL;i++){o.l.push({x:(Math.random()*2-1)*20,y:Math.random()*14,z:(Math.random()*2-1)*20,a:Math.random()*TAU,b:Math.random()*TAU,s:0.6+Math.random()*0.9});o.leaves.setColorAt(i,col.set(LC[i%LC.length]));}
   o.dm=new THREE.Object3D();
   /* puddles and fallen leaves in the city */
@@ -87,7 +89,7 @@ function weaBuild(){const o={};const H=26;o.H=H;
   const NP=170;o.pud=new THREE.InstancedMesh(new THREE.CircleGeometry(1,22),pm,NP);o.pud.userData.noWeather=true;o.pud.renderOrder=1;
   let k=0,tries=0;while(k<NP&&tries<20000){tries++;const px=-90+Math.random()*180,pz=-90+Math.random()*170;if(typeof walkableMain==='function'&&!walkableMain(px,pz))continue;o.dm.position.set(px,0.035,pz);o.dm.rotation.set(-Math.PI/2,0,Math.random()*TAU);o.dm.scale.set(0.6+Math.random()*1.3,0.35+Math.random()*0.8,1);o.dm.updateMatrix();o.pud.setMatrixAt(k++,o.dm.matrix);}o.pud.count=k;
   const lm=new THREE.MeshLambertMaterial({transparent:true,opacity:0,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-4});
-  const NG=2600;o.gl=new THREE.InstancedMesh(new THREE.PlaneGeometry(0.36,0.24),lm,NG);o.gl.userData.noWeather=true;o.gl.renderOrder=1;
+  const NG=2600;o.gl=new THREE.InstancedMesh(leafGeo(0.2),lm,NG);o.gl.userData.noWeather=true;o.gl.renderOrder=1;
   k=0;tries=0;while(k<NG&&tries<40000){tries++;const px=-200+Math.random()*380,pz=-150+Math.random()*245;if(typeof walkableMain==='function'&&!walkableMain(px,pz))continue;o.dm.position.set(px,0.04,pz);o.dm.rotation.set(-Math.PI/2,0,Math.random()*TAU);const sc=1.1+Math.random()*1.2;o.dm.scale.set(sc,sc,1);o.dm.updateMatrix();o.gl.setMatrixAt(k,o.dm.matrix);o.gl.setColorAt(k,col.set(LC[(Math.random()*LC.length)|0]));k++;}o.gl.count=k;
   o.pud.visible=o.gl.visible=false;MAIN.scene.add(o.pud);MAIN.scene.add(o.gl);
   o.tint=document.createElement('div');o.tint.id='weaTint';document.body.appendChild(o.tint);
