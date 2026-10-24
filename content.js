@@ -1,0 +1,105 @@
+'use strict';
+/* =========================================================
+   CONTENT · Museum + Policy Circle
+   Every entry is short, plain and credited. Facts were checked
+   against the linked sources in October 2026.
+   ========================================================= */
+const SRC={
+  who_const:{n:'WHO Constitution',u:'https://www.who.int/about/governance/constitution'},
+  who_mh:{n:'WHO fact sheet: Mental health',u:'https://www.who.int/news-room/fact-sheets/detail/mental-health-strengthening-our-response'},
+  who_2025:{n:'WHO news release, 2 September 2025',u:'https://www.who.int/news/item/02-09-2025-over-a-billion-people-living-with-mental-health-conditions-services-require-urgent-scale-up'},
+  who_plan:{n:'WHO Comprehensive Mental Health Action Plan 2013–2030',u:'https://www.who.int/publications/i/item/9789240031029'},
+  who_dep:{n:'WHO fact sheet: Depressive disorder',u:'https://www.who.int/news-room/fact-sheets/detail/depression'},
+  who_pa:{n:'WHO fact sheet: Physical activity',u:'https://www.who.int/news-room/fact-sheets/detail/physical-activity'},
+  wmhd:{n:'World Federation for Mental Health',u:'https://wfmh.global/'},
+  wundt:{n:'Encyclopaedia Britannica: Wilhelm Wundt',u:'https://www.britannica.com/biography/Wilhelm-Wundt'},
+  james:{n:'Wikipedia: William James',u:'https://en.wikipedia.org/wiki/William_James'},
+  rogers:{n:'Encyclopaedia Britannica: Carl Rogers',u:'https://www.britannica.com/biography/Carl-Rogers'},
+  beck:{n:'Penn Medicine, 1 November 2021',u:'https://www.med.upenn.edu/evpdeancommunications/2021-11-01-293.html'},
+  ainsworth:{n:'Embryo Project Encyclopedia: Mary Ainsworth',u:'https://embryo.asu.edu/pages/mary-ainsworth-1913-1999'},
+  bose:{n:'Wikipedia: Girindrasekhar Bose',u:'https://en.wikipedia.org/wiki/Girindrasekhar_Bose'},
+  menon:{n:'National Medical Journal of India: M. Sarada Menon',u:'https://nmji.in/m-sarada-menon-5-april-19235-december-2021/'},
+  nimhans:{n:'Wikipedia: NIMHANS',u:'https://en.wikipedia.org/wiki/National_Institute_of_Mental_Health_and_Neurosciences'},
+  loksabha:{n:'Lok Sabha unstarred question 1285',u:'https://eparlib.nic.in/bitstream/123456789/765990/1/AU1285_13_16.pdf'},
+  dmhp:{n:'Centre for Mental Health Law & Policy',u:'https://cmhlp.org/imho/blog/unpacking-indias-district-mental-health-programme/'},
+  nmhpol:{n:'Press release, Ministry of Health, 10 October 2014',u:'https://www.business-standard.com/article/government-press-release/country-s-first-ever-mental-health-policy-unveiled-society-needs-to-114101000477_1.html'},
+  nmhs:{n:'NIMHANS, National Mental Health Survey 2015–16',u:'https://indianmhs.nimhans.ac.in/'},
+  pib24:{n:'PIB backgrounder, October 2024',u:'https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/oct/doc20241013415701.pdf'},
+  mhca:{n:'The Mental Healthcare Act, 2017 (full text)',u:'https://qps.nhsrcindia.org/sites/default/files/2022-01/THE%20MENTAL%20HEALTHCARE%20ACT%2C%202017.pdf'},
+  rpwd:{n:'The Rights of Persons with Disabilities Act, 2016 (India Code)',u:'https://indiacode.nic.in/bitstream/123456789/19406/1/rpwd_act_2016.pdf'},
+  manodarpan:{n:'Vikaspedia: Manodarpan initiative',u:'https://en.vikaspedia.in/health/mental-health/manodarpan-initiative'},
+  sc25:{n:'Sukdeb Saha v. State of Andhra Pradesh, 2025 INSC 893',u:'https://www.verdictum.in/court-updates/supreme-court/sukdeb-saha-v-the-state-of-andhra-pradesh-2025-insc-893-mental-health-policy-educational-institutions-1586163'},
+  nimh_teen:{n:'NIMH: The Teen Brain, 7 Things to Know',u:'https://www.nimh.nih.gov/health/publications/the-teen-brain-7-things-to-know'},
+  solmi:{n:'Solmi et al., Molecular Psychiatry (2021)',u:'https://kclpure.kcl.ac.uk/portal/en/publications/age-at-onset-of-mental-disorders-worldwide-large-scale-meta-analy-2/'},
+  sleep:{n:'American Academy of Sleep Medicine',u:'https://sleepeducation.org/get-involved/campaigns/7-and-up-the-healthy-sleep-duration-for-adults/'},
+  nature:{n:'White et al., Scientific Reports (2019), via ScienceDaily',u:'https://www.sciencedaily.com/releases/2019/06/190613095227.htm'},
+  breath:{n:'Zaccaro et al., Frontiers in Human Neuroscience (2018)',u:'https://www.frontiersin.org/articles/10.3389/fnhum.2018.00353/full'},
+  kind:{n:'Curry et al., Journal of Experimental Social Psychology (2018)',u:'https://eprints.bournemouth.ac.uk/30561/'}};
+
+const MUSEUM={
+ history:{title:'A short history of caring for minds',color:'#5b7fc4',icon:'clock',items:[
+  {year:'1879',title:'Psychology becomes a science',short:'Wilhelm Wundt opens a laboratory in Leipzig to study the mind with experiments.',body:'In 1879, Wilhelm Wundt set up what is described as the first psychological laboratory in the world, at the University of Leipzig in Germany. It marked a shift towards studying thoughts and feelings with careful observation and measurement.',src:'wundt'},
+  {year:'1890',title:'A book about everyday minds',short:'William James publishes The Principles of Psychology.',body:'In 1890, the American thinker William James published The Principles of Psychology. He wrote about habits, attention and emotions in a way that still feels readable today.',src:'james'},
+  {year:'1948',title:'Health includes the mind',short:'The WHO Constitution says health is physical, mental and social well-being.',body:'The World Health Organization\'s Constitution came into force in 1948. It describes health as "a state of complete physical, mental and social well-being and not merely the absence of disease or infirmity." Mental well-being became part of how the world defines health.',src:'who_const'},
+  {year:'1960s',title:'Thoughts, feelings, actions',short:'Aaron T. Beck develops the ideas behind cognitive behaviour therapy (CBT).',body:'In the early 1960s, psychiatrist Aaron T. Beck began developing what became cognitive behaviour therapy. It helps people notice automatic negative thoughts and look at them more fairly. CBT is now one of the most widely used talking therapies.',src:'beck'},
+  {year:'1992',title:'World Mental Health Day',short:'First marked on 10 October 1992 by the World Federation for Mental Health.',body:'World Mental Health Day was first observed on 10 October 1992, started by the World Federation for Mental Health. It is now marked every year around the world.',src:'wmhd'},
+  {year:'2013',title:'A shared global plan',short:'Countries adopt WHO\'s Mental Health Action Plan, later extended to 2030.',body:'In May 2013, the World Health Assembly adopted the Comprehensive Mental Health Action Plan. In 2019 it was extended until 2030. It asks countries to strengthen community care, prevention and support.',src:'who_plan'},
+  {year:'2025',title:'You are far from alone',short:'WHO: more than a billion people live with a mental health condition.',body:'In September 2025, the World Health Organization reported that more than one billion people are living with mental health conditions, with anxiety and depression the most common. It is one of the most shared human experiences there is.',src:'who_2025'}]},
+ india:{title:'India\'s mental health journey',color:'#d9804a',icon:'lotus',items:[
+  {year:'1922',title:'A society in Calcutta',short:'Girindrasekhar Bose founds the Indian Psychoanalytical Society.',body:'In 1922, Girindrasekhar Bose founded the Indian Psychoanalytical Society in Calcutta (now Kolkata) and served as its first president until 1953. He also corresponded with Sigmund Freud for many years.',src:'bose'},
+  {year:'1933',title:'Care inside a general hospital',short:'Bose starts a psychiatry unit at R.G. Kar Medical College, Calcutta.',body:'In 1933, Girindrasekhar Bose started a psychiatry unit inside a general hospital, at R.G. Kar Medical College in Calcutta. It is described as the first general hospital psychiatry unit in Asia. Care moved closer to where people already went for help.',src:'bose'},
+  {year:'1961',title:'A pioneering psychiatrist',short:'M. Sarada Menon becomes the first woman superintendent of the Kilpauk hospital, Chennai.',body:'Dr M. Sarada Menon is remembered as India\'s first woman psychiatrist. In 1961 she became the first woman superintendent of the government mental hospital in Kilpauk, now the Institute of Mental Health, Chennai. In 1984 she founded SCARF, the Schizophrenia Research Foundation.',src:'menon'},
+  {year:'1974',title:'NIMHANS',short:'The National Institute of Mental Health and Neurosciences becomes an autonomous institute in Bengaluru.',body:'NIMHANS in Bengaluru became an autonomous institute on 27 December 1974. It is one of India\'s leading centres for mental health care, training and research.',src:'nimhans'},
+  {year:'1982',title:'A national programme',short:'India begins the National Mental Health Programme.',body:'The Government of India has run the National Mental Health Programme since 1982. Its aim is to make basic mental health care available to everyone and to connect it with general health care.',src:'loksabha'},
+  {year:'1996',title:'Care closer to home',short:'The District Mental Health Programme brings services to districts.',body:'The District Mental Health Programme was launched in 1996 under the national programme. It grew from a pilot in Bellary, Karnataka, which showed that local health workers could be trained to provide essential mental health care.',src:'dmhp'},
+  {year:'2014',title:'A first national policy',short:'India releases its first National Mental Health Policy.',body:'On 10 October 2014, India released its first National Mental Health Policy. It focuses on access to care for everyone, reducing stigma and promoting well-being.',src:'nmhpol'},
+  {year:'2016',title:'Listening to the country',short:'A national survey across 12 states shares findings.',body:'The National Mental Health Survey 2015–16, coordinated by NIMHANS, spoke with 34,802 adults across 12 states. About 10.6% of adults had a current mental health condition. Most were not getting care, with treatment gaps of roughly 70 to 92% depending on the condition. Knowing this helps plan better services.',src:'nmhs'},
+  {year:'2017',title:'A rights-based law',short:'The Mental Healthcare Act gives people a legal right to access mental health care.',body:'The Mental Healthcare Act, 2017 gives every person a right to access mental health care (Section 18). People can write an advance directive about how they want to be cared for (Section 5) and choose a nominated representative (Section 14).',src:'mhca'},
+  {year:'2020',title:'Manodarpan',short:'The Ministry of Education starts psychosocial support for students.',body:'Manodarpan is an initiative of the Ministry of Education to support students\' mental health and well-being. It includes a national toll-free helpline, 8448440632.',src:'manodarpan'},
+  {year:'2022',title:'Help by phone, any time',short:'Tele-MANAS launches a free 24×7 helpline: 14416.',body:'Tele-MANAS, India\'s national tele mental health programme, was launched on 10 October 2022. Calling 14416 connects you with trained counsellors, free, at any hour, in many Indian languages.',src:'pib24'},
+  {year:'2025',title:'Support in every campus',short:'The Supreme Court sets mental health guidelines for educational institutions.',body:'In July 2025, the Supreme Court of India issued guidelines for schools, colleges and coaching centres. Institutions with 100 or more students must have at least one qualified counsellor, psychologist or social worker, helpline numbers must be displayed clearly, and staff must be trained regularly.',src:'sc25'}]},
+ science:{title:'How minds work, and what helps',color:'#3f9f78',icon:'leaf',items:[
+  {year:'Brain',title:'Still growing',short:'The brain keeps developing into the mid-to-late 20s.',body:'The brain finishes developing and maturing in the mid-to-late 20s. The prefrontal cortex, just behind your forehead, which helps with planning and managing emotions, is one of the last parts to mature. Change during these years is normal.',src:'nimh_teen'},
+  {year:'Timing',title:'Why youth support matters',short:'Many mental health conditions begin before the age of 25.',body:'A large review of 192 studies found that about half of mental health conditions begin by age 18, and about 62% by age 25. That is why support during school and college years makes such a difference, and why early help works best.',src:'solmi'},
+  {year:'Moving',title:'Movement and mood',short:'Regular activity can ease low mood and anxiety.',body:'The World Health Organization says physical activity in adults reduces symptoms of depression and anxiety and can improve overall well-being. WHO suggests at least 150 minutes of moderate activity a week. Walking counts.',src:'who_pa'},
+  {year:'Sleep',title:'Seven and up',short:'Adults generally need 7 or more hours of sleep a night.',body:'Sleep experts recommend that adults sleep 7 or more hours a night on a regular basis. Sleep supports memory, focus and mood.',src:'sleep'},
+  {year:'Nature',title:'Two hours outdoors',short:'Time in nature each week is linked with feeling healthier.',body:'A 2019 study of about 20,000 people in England found that those who spent at least 120 minutes a week in nature were more likely to report good health and well-being. It didn\'t matter whether it was one long visit or several short ones.',src:'nature'},
+  {year:'Breath',title:'Slow breathing',short:'Slowing the breath is linked with feeling more relaxed.',body:'A 2018 review of studies on slow breathing found it was linked with more comfort, relaxation and alertness, and with less anxiety and anger. It is a simple tool you can use anywhere.',src:'breath'},
+  {year:'Kindness',title:'Kindness comes back',short:'Doing kind things tends to lift our own well-being a little.',body:'A 2018 review of studies found that performing acts of kindness has a small-to-medium positive effect on the well-being of the person being kind.',src:'kind'}]},
+ myths:{title:'Myths and facts',color:'#d4628a',icon:'speech',items:[
+  {year:'Myth',title:'"Mental health just means mental illness."',short:'Fact: mental health is about well-being for everyone.',body:'The World Health Organization describes mental health as a state of mental well-being that helps people cope with the stresses of life, realise their abilities, learn well and work well, and contribute to their community. Everyone has mental health.',src:'who_mh'},
+  {year:'Myth',title:'"Hardly anyone deals with this."',short:'Fact: more than a billion people live with a mental health condition.',body:'WHO reported in 2025 that more than one billion people are living with mental health conditions. Anxiety and depression are the most common. You are in very large company.',src:'who_2025'},
+  {year:'Myth',title:'"Depression is just a bad mood."',short:'Fact: depression is different from everyday ups and downs, and it can be treated.',body:'WHO explains that depression is different from regular mood changes and feelings about everyday life. There are effective treatments for it, and talking therapies are often the first option.',src:'who_dep'},
+  {year:'Myth',title:'"Talking can\'t really change anything."',short:'Fact: talking therapies are a first-line treatment for depression.',body:'According to WHO, psychological treatments such as talking therapies are the first treatments recommended for depression. Talking to someone trained can genuinely help.',src:'who_dep'}]},
+ people:{title:'People who shaped the field',color:'#8a6fd1',icon:'person',items:[
+  {year:'1832–1920',title:'Wilhelm Wundt',short:'Opened the first psychology laboratory, Leipzig, 1879.',body:'German scientist Wilhelm Wundt opened the first psychological laboratory at the University of Leipzig in 1879, helping make psychology a science of its own.',src:'wundt'},
+  {year:'1842–1910',title:'William James',short:'Wrote The Principles of Psychology (1890).',body:'American philosopher and psychologist William James wrote The Principles of Psychology in 1890, exploring habits, attention and emotion.',src:'james'},
+  {year:'1887–1953',title:'Girindrasekhar Bose',short:'Founded the Indian Psychoanalytical Society, 1922.',body:'Girindrasekhar Bose founded the Indian Psychoanalytical Society in Calcutta in 1922 and started a general hospital psychiatry unit at R.G. Kar Medical College in 1933.',src:'bose'},
+  {year:'1902–1987',title:'Carl Rogers',short:'Developed client-centred therapy.',body:'Carl Rogers developed the client-centred approach to therapy, built on a warm relationship in which the person being helped sets the pace and direction.',src:'rogers'},
+  {year:'1913–1999',title:'Mary Ainsworth',short:'Studied attachment with John Bowlby.',body:'Mary Ainsworth worked with John Bowlby on attachment, how early bonds with caregivers shape how we relate to others. She developed the Strange Situation procedure, still widely used in attachment research.',src:'ainsworth'},
+  {year:'1921–2021',title:'Aaron T. Beck',short:'Developed cognitive behaviour therapy.',body:'Aaron T. Beck developed cognitive behaviour therapy, which helps people notice negative automatic thoughts and respond to them in more helpful ways.',src:'beck'},
+  {year:'1923–2021',title:'M. Sarada Menon',short:'Remembered as India\'s first woman psychiatrist.',body:'Dr M. Sarada Menon led the Kilpauk mental hospital in Chennai from 1961 and founded SCARF, the Schizophrenia Research Foundation, in 1984. She received the Padma Bhushan in 1992.',src:'menon'}]}};
+
+const POLICIES=[
+ {id:'mhca',name:'Mental Healthcare Act',year:'2017',color:'#5b7fc4',src:'mhca',
+  what:['Every person has a right to access mental health care from government services (Section 18).','You can write an advance directive saying how you want to be cared for, and name a nominated representative (Sections 5 and 14).','Everyone has a right to protection from cruel, inhuman or degrading treatment (Section 20).','Mental Health Review Boards look after people\'s rights (Section 73).'],
+  students:'You have a legal right to mental health care, and asking for it is protected.'},
+ {id:'rpwd',name:'Rights of Persons with Disabilities Act',year:'2016',color:'#3f9f78',src:'rpwd',
+  what:['Mental illness is one of the disabilities the Act recognises.','It requires reasonable accommodation, meaning sensible changes that help a person take part equally.','It protects against discrimination, including in education.'],
+  students:'If you live with a long-term mental health condition, you may be able to ask your institution for reasonable accommodations. Some benefits need a disability certificate.'},
+ {id:'nmhp',name:'National & District Mental Health Programmes',year:'1982 · 1996',color:'#d9804a',src:'loksabha',src2:'dmhp',
+  what:['The National Mental Health Programme has run since 1982 to make basic mental health care available to all.','The District Mental Health Programme, launched in 1996, brings services to district level.','District services have included counselling in schools and colleges and life skills training.'],
+  students:'Help is meant to be available close to home, not only in big city hospitals.'},
+ {id:'nmhpol',name:'National Mental Health Policy',year:'2014',color:'#8a6fd1',src:'nmhpol',
+  what:['India\'s first national policy on mental health, released on 10 October 2014.','It aims for everyone to be able to get mental health care.','It focuses on reducing stigma and promoting well-being.'],
+  students:'It sets the direction for services that reach young people.'},
+ {id:'telemanas',name:'Tele-MANAS',year:'2022',color:'#2f9fc9',src:'pib24',
+  what:['India\'s national tele mental health programme, launched on 10 October 2022.','Call 14416, free, 24 hours a day, every day.','Calls connect to trained counsellors, in many Indian languages.'],
+  students:'Help is there any time, including late at night.'},
+ {id:'manodarpan',name:'Manodarpan',year:'2020',color:'#2fae8a',src:'manodarpan',
+  what:['An initiative of the Ministry of Education for students\' mental health and well-being.','It includes a national toll-free helpline: 8448440632.','It also shares guidance for students, families and teachers.'],
+  students:'Made with students in mind.'},
+ {id:'sc2025',name:'Supreme Court guidelines for institutions',year:'2025',color:'#e0a030',src:'sc25',
+  what:['Issued in July 2025 in Sukdeb Saha v. State of Andhra Pradesh.','Institutions with 100 or more students must have at least one qualified counsellor, psychologist or social worker.','Helpline numbers, including Tele-MANAS, must be displayed prominently.','All staff must have mental health training at least twice a year, and institutions should avoid separating students into batches by marks.'],
+  students:'Your institution should have a counsellor and visible helpline numbers. You can ask about them.'}];
+function srcHTML(k){const s=SRC[k];return s?`<a href="${s.u}" target="_blank" rel="noopener">${esc(s.n)}</a>`:'';}
