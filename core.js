@@ -1095,7 +1095,7 @@ function loop(now){const dt=Math.min(0.05,(now-last)/1000);last=now;T+=dt;
   updatePlayer(dt,T);updateCamera(dt,T);updateHUD(dt,T);stepTOD(dt);
   renderer.render(scene,camera);requestAnimationFrame(loop);}
 async function boot(){try{await Promise.race([Promise.all([document.fonts.load(`800 64px "Bricolage Grotesque"`),document.fonts.load(`700 64px "Bricolage Grotesque"`),document.fonts.load(`500 32px Lexend`)]),new Promise(r=>setTimeout(r,2500))]);}catch(e){}
-  buildWorld();setTOD(store.get('tod',null)||autoTOD(),true);cam.tx=0;cam.ty=8;cam.tz=70;cam.dist=40;cam.distT=40;
+  buildWorld();setTOD('evening',true);cam.tx=0;cam.ty=8;cam.tz=70;cam.dist=40;cam.distT=40;
   const eb=$('enterBtn');eb.disabled=false;eb.textContent='Enter the city';
   requestAnimationFrame(loop);}
 

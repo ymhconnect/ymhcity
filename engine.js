@@ -331,7 +331,7 @@ function loop(now){const dt=Math.min(0.05,(now-last2)/1000);last2=now;T+=dt;
 async function boot(){const eb=$('enterBtn');eb.textContent='Loading…';
   try{await Promise.race([Promise.all([document.fonts.load(`800 64px "Bricolage Grotesque"`),document.fonts.load(`700 64px "Bricolage Grotesque"`),document.fonts.load(`500 32px Lexend`)]),new Promise(r=>setTimeout(r,2500))]);}catch(e){}
   eb.textContent='Building the city…';await new Promise(r=>setTimeout(r,30));
-  buildWorld();setTOD(store.get('tod',null)||autoTOD(),true);cam.tx=player.x;cam.ty=1.2;cam.tz=player.z;cam.dist=8;cam.distT=6.2;
+  buildWorld();setTOD('evening',true);cam.tx=player.x;cam.ty=1.2;cam.tz=player.z;cam.dist=8;cam.distT=6.2;
   updateStampCount();eb.disabled=false;eb.textContent='Enter the city';initDB();requestAnimationFrame(loop);}
 $('enterBtn').addEventListener('click',()=>{player.rot=Math.PI;cam.yaw=0;
   if(!store.get('coached',false)){store.set('coached',true);const tips=[COARSE?'Tap the ground to walk there, or use the joystick.':'Walk with WASD, or click the ground to walk there. Hold Shift to go faster.','Walk through the rainbow gate. Your next step is always in the top-left corner.'];
